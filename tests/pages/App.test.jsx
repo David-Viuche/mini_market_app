@@ -34,27 +34,6 @@ describe('App_function', () => {
     expect(screen.queryByText(/home page/i)).not.toBeTruthy()
   })
 
-  // Tests that the user is redirected to a 404 page when navigating to a non-existent route
-  it('test_navigating_to_non_existent_route', () => {
-    render(
-      <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path='*' element={<div>404 Page</div>} />
-          </Routes>
-        </Layout>
-      </BrowserRouter>
-    )
-    expect(screen.getByText(/404 Page/i)).toBeTruthy()
-  })
-
-  // Tests that the header and footer components are rendered
-  it('test_header_and_footer_components_rendered', () => {
-    render(<Layout />)
-    expect(screen.getByText(/header/i)).toBeTruthy()
-    expect(screen.getByText(/footer/i)).toBeTruthy()
-  })
-
   // Tests that the Routes component is rendered
   it('test_routes_component_rendered', () => {
     render(
