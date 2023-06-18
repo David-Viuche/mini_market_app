@@ -20,10 +20,13 @@ export const productsSlice = createSlice({
   reducers: {
     selectProduct: (state, action) => {
       state.selectedProduct = action.payload
+    },
+    resetSelectProduct: (state) => {
+      state.selectedProduct = null
     }
   }
 })
 
 export default productsSlice.reducer
 
-export const { selectProduct } = productsSlice.actions
+export const { selectProduct, resetSelectProduct } = productsSlice.actions

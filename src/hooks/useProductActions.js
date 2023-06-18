@@ -1,4 +1,4 @@
-import { selectProduct } from '../store/products/slice'
+import { selectProduct, resetSelectProduct } from '../store/products/slice'
 import { useDispatch } from 'react-redux'
 
 export const useUserActions = () => {
@@ -7,5 +7,10 @@ export const useUserActions = () => {
   const setSelectedProduct = ({ id, name, price, img, description }) => {
     dispatch(selectProduct({ id, name, price, img, description }))
   }
-  return { setSelectedProduct }
+
+  const resetSelectedProduct = () => {
+    dispatch(resetSelectProduct())
+  }
+
+  return { setSelectedProduct, resetSelectedProduct }
 }
