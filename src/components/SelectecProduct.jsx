@@ -6,10 +6,16 @@ import { useUserActions } from '../hooks/useProductActions'
 
 const SelectecProduct = () => {
   const selectedProduct = useSelector(state => state.products.selectedProduct)
+  const productsCart = useSelector(state => state.cart.products)
   const { resetSelectedProduct } = useUserActions()
 
   const handleOnclick = () => {
     resetSelectedProduct()
+  }
+
+  const getCantProductInCart = (id) => {
+    const productFound = productsCart.filter(p => p.id === id)
+    return (productFound[0]) ? productFound[0].cant : 0
   }
 
   return (
@@ -27,8 +33,9 @@ const SelectecProduct = () => {
       }
       {
         selectedProduct && (
-          <div className='w-full h-full flex flex-col items-center'>
+          <div className='w-full h-full flex flex-col items-center relative'>
             <img src={selectedProduct.img} alt={selectedProduct.name} className={'w-1/2 h-auto max-w-[10rem] sm:max-w-xs mb-10'} />
+            <span className={`text-fuchsia-100 shadow-md bg-fuchsia-600 rounded-3xl py-2 px-4 font-bold text-lg absolute top-4 left-4 ${(getCantProductInCart(selectedProduct.id) < 1) && 'hidden'}`}>{getCantProductInCart(selectedProduct.id)}</span>
             <div className='flex flex-col lg:flex-row justify-between w-full pb-4 border-b border-fuchsia-600'>
               <BasicDataProduct product={selectedProduct} />
               <ButtonsAddProduct />
