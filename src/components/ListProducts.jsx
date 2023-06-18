@@ -14,7 +14,7 @@ const ListProducts = () => {
   }
 
   return (
-    <section className='sm:w-3/5'>
+    <section className={`sm:w-3/5 ${(selectedProduct) && 'hidden'} sm:block`}>
       <h1 className='text-fuchsia-600 font-bold text-xl border-b mb-4 p-2 border-fuchsia-600' >Store</h1>
       <div className='columns-1 sm:columns-2 md:columns-3 gap-10'>
         {
