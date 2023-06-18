@@ -27,7 +27,6 @@ export const cartSlice = createSlice({
       if (product) {
         product.cant -= 1
 
-        console.log(product)
         if (product.cant === 0) {
           state.products = state.products.filter(p => p.id !== action.payload.id)
         }
