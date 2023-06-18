@@ -17,6 +17,7 @@ const SelectecProduct = () => {
 
   const handleOnclick = () => {
     resetSelectedProduct()
+    navigate('/')
   }
 
   const getCantProductInCart = (id) => {
@@ -42,7 +43,7 @@ const SelectecProduct = () => {
       <div className='border-b mb-4 p-2 border-fuchsia-600 flex items-center justify-between'>
         <h1 className='text-fuchsia-600 font-bold text-xl '>Product</h1>
         {
-          selectedProduct && <button onClick={() => (handleOnclick())} className='sm:hidden font-bold text-xl text-white hover:scale-110 bg-fuchsia-600 h-full flex items-center justify-center p-2'>
+          selectedProduct && <button onClick={() => (handleOnclick())} className='font-bold text-xl text-white hover:scale-110 bg-fuchsia-600 h-full flex items-center justify-center p-2 sm:p-0'>
             <Close />
           </button>
         }
