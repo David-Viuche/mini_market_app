@@ -1,5 +1,7 @@
 import { useSelector } from 'react-redux'
 import { useUserActions } from '../hooks/useProductActions'
+import { Link } from 'react-router-dom'
+
 const ListProducts = () => {
   const selectedProduct = useSelector(state => state.products.selectedProduct)
   const products = useSelector(state => state.products.products)
@@ -30,8 +32,11 @@ const ListProducts = () => {
           products && products.map(product => (
 
             <div key={product.id} className={`w-full h-auto max-w-[10rem] sm:max-w-xs mb-10 relative border-2 hover:scale-110 hover:cursor-pointer ${(product.id === selectedProduct?.id) && 'border-fuchsia-600 shadow-lg shadow-fuchsia-600/40'}`}>
-              <img onClick={() => (handleOnclick(product))} src={product.img} alt={product.name} className={'w-full h-full'} />
-              <span className={`text-fuchsia-100 shadow-md bg-fuchsia-600 rounded-3xl py-2 px-4 font-bold text-lg absolute top-4 left-4 ${(getCantProductInCart(product.id) < 1) && 'hidden'}`}>{getCantProductInCart(product.id)}</span>
+              <Link to={`/product/${product.id}`} onClick={() => (handleOnclick(product))}>
+                <img src={product.img} alt={product.name} className={'w-full h-full'} />
+
+                <span className={`text-fuchsia-100 shadow-md bg-fuchsia-600 rounded-3xl py-2 px-4 font-bold text-lg absolute top-4 left-4 ${(getCantProductInCart(product.id) < 1) && 'hidden'}`}>{getCantProductInCart(product.id)}</span>
+              </Link>
             </div>
 
           ))

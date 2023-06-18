@@ -3,11 +3,17 @@ import ButtonsAddProduct from './ButtonsAddProduct'
 import BasicDataProduct from './BasicDataProduct'
 import Close from './svg/Close'
 import { useUserActions } from '../hooks/useProductActions'
+import { useParams, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import getProducts from '../services/getProducts'
 
 const SelectecProduct = () => {
   const selectedProduct = useSelector(state => state.products.selectedProduct)
   const productsCart = useSelector(state => state.cart.products)
-  const { resetSelectedProduct } = useUserActions()
+  const { resetSelectedProduct, setSelectedProduct } = useUserActions()
+
+  const { productId } = useParams()
+  const navigate = useNavigate()
 
   const handleOnclick = () => {
     resetSelectedProduct()
@@ -17,6 +23,19 @@ const SelectecProduct = () => {
     const productFound = productsCart.filter(p => p.id === id)
     return (productFound[0]) ? productFound[0].cant : 0
   }
+
+  useEffect(() => {
+    if (!selectedProduct && productId) {
+      const allProducts = getProducts()
+      const productFound = allProducts.filter(p => p.id === Number(productId))
+
+      if (productFound.length > 0) {
+        setSelectedProduct(productFound[0])
+      } else {
+        navigate('/')
+      }
+    }
+  }, [navigate, productId, selectedProduct, setSelectedProduct])
 
   return (
     <section className={`sm:w-2/5 ${(!selectedProduct) && 'hidden'} absolute z-10 top-24 bg-white inset-x-0 sm:block  sm:relative sm:top-0`}>
