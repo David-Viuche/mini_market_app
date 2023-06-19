@@ -1,50 +1,88 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import App from '../../src/App'
-import Layout from '../../src/components/Layout'
-import Home from '../../src/pages/Home'
 import { render, screen } from '@testing-library/react'
+import { Provider } from 'react-redux'
+import Cart from '../../src/components/Cart'
+import SelectecProduct from '../../src/components/SelectecProduct'
+import { store } from '../../src/store/store'
 
 describe('App_function', () => {
-  it('test_rendering_with_no_errors', () => {
+  it('test_render_app', () => {
     render(<App />)
-    expect(screen.getByText(/home page/i)).toBeTruthy()
+    expect(screen.getByRole('main')).toBeInTheDocument()
   })
 
-  // Tests that the user can navigate to the home page successfully
-  it('test_navigating_to_home_page', () => {
+  it('test_render_selectec_product_with_existing_product', () => {
+    const mockStore = store
+    const store = mockStore({
+      products: {
+        selectedProduct: {
+          id: 1,
+          name: 'Product 1',
+          description: 'Description 1',
+          img: 'img1.png',
+          price: 10
+        }
+      }
+    })
     render(
-      <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path='/' element={<Home />} />
-          </Routes>
-        </Layout>
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <SelectecProduct />
+        </BrowserRouter>
+      </Provider>
     )
-    expect(screen.getByText(/home page/i)).toBeTruthy()
+    expect(screen.getByText('Product')).toBeInTheDocument()
   })
 
-  // Tests that the app renders with no children passed to the Layout component
-  it('test_rendering_with_no_children_passed_to_layout', () => {
-    render(
-      <BrowserRouter>
-        <Layout />
-      </BrowserRouter>
+  it('test_render_selectec_product_with_non_existing_product', () => {
+    const mockStore = store()
+    const store = mockStore({
+      products: {
+        selectedProduct: null
+      }
+    })
+    const { history } = renderWithRouter(
+      <Provider store={store}>
+        <SelectecProduct />
+      </Provider>
     )
-    expect(screen.queryByText(/home page/i)).not.toBeTruthy()
+    expect(screen.getByText('Please choose a product in the left.')).toBeInTheDocument()
+    expect(history.location.pathname).toBe('/')
   })
 
-  // Tests that the Routes component is rendered
-  it('test_routes_component_rendered', () => {
+  it('test_render_cart_with_products', () => {
+    const mockStore = store()
+    const store = mockStore({
+      cart: {
+        active: true,
+        total: 20,
+        products: [
+          {
+            id: 1,
+            name: 'Product 1',
+            description: 'Description 1',
+            img: 'img1.png',
+            price: 10,
+            cant: 2
+          },
+          {
+            id: 2,
+            name: 'Product 2',
+            description: 'Description 2',
+            img: 'img2.png',
+            price: 5,
+            cant: 1
+          }
+        ]
+      }
+    })
     render(
-      <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path='/' element={<Home />} />
-          </Routes>
-        </Layout>
-      </BrowserRouter>
+      <Provider store={store}>
+        <Cart />
+      </Provider>
     )
-    expect(screen.getByText(/home page/i)).toBeTruthy()
+    expect(screen.getByText('Shopping Cart')).toBeInTheDocument()
+    expect(screen.getByText('Total:')).toBeInTheDocument()
   })
 })
