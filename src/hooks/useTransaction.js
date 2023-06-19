@@ -18,6 +18,7 @@ export const useTransaction = (id) => {
 
   return {
     transaction,
-    isLoading
+    isLoading,
+    setTransaction
   }
 }

@@ -1,16 +1,27 @@
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useLocation } from 'react-router-dom'
 import ListProducts from '../components/ListProducts'
 import { useEffect, useState } from 'react'
 import { useTransaction } from '../hooks/useTransaction'
+import { useCartActions } from '../hooks/useCartActions'
 import { Toaster, toast } from 'sonner'
+import { useSelector } from 'react-redux'
+
 const Home = ({ children }) => {
   const [params] = useSearchParams()
   const [id, setId] = useState(null)
-  const { transaction } = useTransaction(id)
+  const { transaction, setTransaction } = useTransaction(id)
+  const { toggleActiveCartAction } = useCartActions()
+  const { pathname } = useLocation()
+  const activeCart = useSelector(state => state.cart.active)
 
   useEffect(() => {
     const idTransaccion = params.get('id')
     setId(idTransaccion)
+
+    if (activeCart && pathname !== '/cart') {
+      toggleActiveCartAction()
+    }
+
     if (transaction && transaction.data) {
       if (transaction.data.status === 'APPROVED') {
         toast.success('Transaction approved')
@@ -21,8 +32,9 @@ const Home = ({ children }) => {
       if (transaction.data.status === 'ERROR') {
         toast.success('Transaction error')
       }
+      setTransaction(null)
     }
-  }, [params, transaction])
+  }, [activeCart, params, pathname, setTransaction, toggleActiveCartAction, transaction])
 
   return (
     <main className='w-full flex justify-center'>
