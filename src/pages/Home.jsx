@@ -18,10 +18,6 @@ const Home = ({ children }) => {
     const idTransaccion = params.get('id')
     setId(idTransaccion)
 
-    if (activeCart && pathname !== '/cart') {
-      toggleActiveCartAction()
-    }
-
     if (transaction && transaction.data) {
       if (transaction.data.status === 'APPROVED') {
         toast.success('Transaction approved')
@@ -34,7 +30,13 @@ const Home = ({ children }) => {
       }
       setTransaction(null)
     }
-  }, [activeCart, params, pathname, setTransaction, toggleActiveCartAction, transaction])
+  }, [params, setTransaction, transaction])
+
+  useEffect(() => {
+    if (activeCart && pathname !== '/cart') {
+      toggleActiveCartAction(false)
+    }
+  }, [activeCart, pathname, toggleActiveCartAction])
 
   return (
     <main className='w-full flex justify-center'>
