@@ -12,8 +12,8 @@ export const useCartActions = () => {
     dispatch(removeProductToCart({ id, price }))
   }
 
-  const toggleActiveCartAction = () => {
-    dispatch(toggleActiveCart())
+  const toggleActiveCartAction = (value) => {
+    dispatch(toggleActiveCart(value))
   }
 
   return { addProductToCartAction, removeProductToCartAction, toggleActiveCartAction }

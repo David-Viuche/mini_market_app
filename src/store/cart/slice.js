@@ -40,8 +40,12 @@ export const cartSlice = createSlice({
         state.total -= action.payload.price
       }
     },
-    toggleActiveCart: (state) => {
-      state.active = !state.active
+    toggleActiveCart: (state, action) => {
+      if (action.payload !== null) {
+        state.active = action.payload
+      } else {
+        state.active = !state.active
+      }
     }
   }
 })
