@@ -8,15 +8,20 @@ const DEFAULT_STATE = {
 
 const initialState = (() => {
   const products = getProducts()
+
+  const persistedState = localStorage.getItem('__redux__state__')
+  const productsLocal = persistedState ? JSON.parse(persistedState).products : DEFAULT_STATE.products
+  const selectedProductLocal = persistedState ? JSON.parse(persistedState).selectedProduct : DEFAULT_STATE.selectedProduct
+
   return {
-    products: products || DEFAULT_STATE,
-    selectedProduct: null
+    products: products || productsLocal || DEFAULT_STATE.products,
+    selectedProduct: selectedProductLocal || null
   }
 })()
 
 export const productsSlice = createSlice({
   name: 'products',
-  initialState,
+  initialState: initialState || initialStateProducts,
   reducers: {
     selectProduct: (state, action) => {
       state.selectedProduct = action.payload

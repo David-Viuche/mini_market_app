@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+const initialState = (() => {
+  const persistedState = localStorage.getItem('__redux__state__')
+  return persistedState ? JSON.parse(persistedState).cart : DEFAULT_STATE
+})()
+
 const DEFAULT_STATE = {
   total: 0,
   active: false,
@@ -8,7 +13,7 @@ const DEFAULT_STATE = {
 
 export const cartSlice = createSlice({
   name: 'cart',
-  initialState: DEFAULT_STATE,
+  initialState: initialState || DEFAULT_STATE,
   reducers: {
     incrementTotal: (state, action) => {
       state.total += action.payload
