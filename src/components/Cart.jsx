@@ -2,12 +2,21 @@ import { useSelector } from 'react-redux'
 import { formatCurrency } from '../utils/utils'
 import { useCartActions } from '../hooks/useCartActions'
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import WidgetPayment from './WidgetPayment'
 
 const Cart = () => {
   const total = useSelector(state => state.cart.total)
   const products = useSelector(state => state.cart.products)
+  const location = useLocation()
+
+  const handleRedirect = () => {
+    toggleActiveCartAction()
+  }
+
+  if (location.state && location.state.fromRedirect) {
+    handleRedirect()
+  }
 
   const { toggleActiveCartAction } = useCartActions()
 
