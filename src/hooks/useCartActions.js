@@ -1,4 +1,4 @@
-import { addProductToCart, removeProductToCart } from '../store/cart/slice'
+import { addProductToCart, removeProductToCart, toggleActiveCart } from '../store/cart/slice'
 import { useDispatch } from 'react-redux'
 
 export const useCartActions = () => {
@@ -12,5 +12,9 @@ export const useCartActions = () => {
     dispatch(removeProductToCart({ id, price }))
   }
 
-  return { addProductToCartAction, removeProductToCartAction }
+  const toggleActiveCartAction = () => {
+    dispatch(toggleActiveCart())
+  }
+
+  return { addProductToCartAction, removeProductToCartAction, toggleActiveCartAction }
 }

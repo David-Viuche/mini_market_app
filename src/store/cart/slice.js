@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const DEFAULT_STATE = {
   total: 0,
+  active: false,
   products: []
 }
 
@@ -33,10 +34,13 @@ export const cartSlice = createSlice({
 
         state.total -= action.payload.price
       }
+    },
+    toggleActiveCart: (state) => {
+      state.active = !state.active
     }
   }
 })
 
 export default cartSlice.reducer
 
-export const { incrementTotal, addProductToCart, removeProductToCart } = cartSlice.actions
+export const { incrementTotal, addProductToCart, removeProductToCart, toggleActiveCart } = cartSlice.actions

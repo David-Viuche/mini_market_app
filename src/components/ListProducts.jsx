@@ -6,6 +6,7 @@ const ListProducts = () => {
   const selectedProduct = useSelector(state => state.products.selectedProduct)
   const products = useSelector(state => state.products.products)
   const productsCart = useSelector(state => state.cart.products)
+  const activeCart = useSelector(state => state.cart.active)
   const { setSelectedProduct, resetSelectedProduct } = useUserActions()
 
   const handleOnclick = (product) => {
@@ -22,7 +23,7 @@ const ListProducts = () => {
   }
 
   return (
-    <section className={`sm:w-3/5 ${(selectedProduct) && 'hidden'} sm:block w-full`}>
+    <section className={`sm:w-3/5 ${(selectedProduct) && 'hidden'} ${(activeCart) && 'hidden'} sm:block w-full`}>
       <h1 className='text-fuchsia-600 font-bold text-xl border-b mb-4 p-2 border-fuchsia-600' >Store</h1>
       <div className='columns-1 sm:columns-2 md:columns-3 gap-10 grid place-items-center sm:block'>
         {
@@ -35,7 +36,7 @@ const ListProducts = () => {
               <Link to={`/product/${product.id}`} onClick={() => (handleOnclick(product))}>
                 <img src={product.img} alt={product.name} className={'w-full h-full'} />
 
-                <span className={`text-fuchsia-100 shadow-md bg-fuchsia-600 rounded-3xl py-2 px-4 font-bold text-lg absolute top-4 left-4 ${(getCantProductInCart(product.id) < 1) && 'hidden'}`}>{getCantProductInCart(product.id)}</span>
+                <span className={`text-fuchsia-100 shadow-md bg-fuchsia-600 rounded-3xl py-0 px-2 font-bold text-lg absolute top-4 left-4 ${(getCantProductInCart(product.id) < 1) && 'hidden'}`}>{getCantProductInCart(product.id)}</span>
               </Link>
             </div>
 
