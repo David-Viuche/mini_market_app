@@ -11,9 +11,10 @@ const Cart = () => {
   const { toggleActiveCartAction } = useCartActions()
 
   useEffect(() => {
-    toggleActiveCartAction()
+    toggleActiveCartAction(true)
+
     return () => {
-      toggleActiveCartAction()
+      toggleActiveCartAction(false)
     }
   }, [toggleActiveCartAction])
 
