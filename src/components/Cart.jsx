@@ -3,6 +3,7 @@ import { formatCurrency } from '../utils/utils'
 import { useCartActions } from '../hooks/useCartActions'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import WidgetPayment from './WidgetPayment'
 
 const Cart = () => {
   const total = useSelector(state => state.cart.total)
@@ -42,6 +43,7 @@ const Cart = () => {
           }
         </div>
         <h2 className='text-fuchsia-600 font-bold text-xl text-end p-2'><span className='text-gray-400 mr-2'>Total:</span>{formatCurrency(total)}</h2>
+        <WidgetPayment total={total} />
       </div>
     </section >
   )
